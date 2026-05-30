@@ -23,6 +23,11 @@
                         <input type="password" class="input" placeholder="Your Password">
                     </label>
 
+                    <label class="flex items-center space-x-2">
+                        <input class="checkbox rounded-none" type="checkbox" />
+                        <p class="select-none">Remember Me</p>
+                    </label>
+
                     <div class="flex justify-end">    
                         <button class="btn preset-filled-primary-500 mt-3 w-44">Continue</button>
                     </div>

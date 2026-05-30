@@ -52,6 +52,8 @@ class NAuth(Service):
     def __init__(self):
         super().__init__()
         self.config: NAuthConfig = NAuthConfig()
+        
+        self.nextClean = 0
 
     def onInstall(self):
         Config.Update("nautica", ConfigBuilder()
@@ -66,8 +68,6 @@ class NAuth(Service):
         if not os.path.exists("src/nauth/__init__.py"):
             with open(f"src/nauth/__init__.py", "w") as f: f.write(NAuthPreset)
             
-        Scheduler.SetInterval(self.deleteExpired, 60*60) #delete expired sessions every hour
-
     def onClose(self, reason):
         pass
 
@@ -91,7 +91,7 @@ class NAuth(Service):
         :expire: When to expire - Timestamp or None to never expire
         """
         s = NAuthSession(refId = refId, expire = expire)
-        Services["MongoDB"]("nauth_sessions").create_one(s.toDict())
+        Services["MongoDB"]("nauth_sessions").insert_one(s.toDict())
         
         return s
         
@@ -106,9 +106,14 @@ class NAuth(Service):
     def deleteExpired(self):
         """Deletes all sessions that have already expired."""
         Services["MongoDB"]("nauth_sessions").delete_many({"expire": {"$ne": None, "$lt": time.time()}})
+        Logger.info("Deleted expired sessions")
 
     async def handleRequest(self, ctx: Context):
         sessionId: str | None = None
+        
+        if time.time() > self.nextClean:
+            self.deleteExpired()
+            self.nextClean = time.time() + 60 * 60
         
         for key in self.config.headerSearchFor:
             if key in ctx.headers:
