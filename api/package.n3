@@ -1,0 +1,7 @@
+name = "Nautica-Package-Manager" # About your project, feel free to edit this section
+version = "1.0.0"
+description = "A Nautica3 Project"
+author = ["Xellu"]
+
+[app]
+dependsOn = [] # Your project's dependencies, to add use: nautica install <package>
