@@ -1,2 +1,16 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+    import Embed from "$lib/components/Embed.svelte";
+    import Page from "$lib/components/Page.svelte";
+    import Navbar from "$lib/components/Navbar.svelte";
+</script>
+
+<svelte:head>
+    <Embed
+        title = "Nautica Package Registry"
+    />
+</svelte:head>
+
+<Navbar />
+<Page className="mt-32">
+    <input type="text" class="input" placeholder="Search for packages">
+</Page>

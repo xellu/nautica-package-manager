@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
@@ -5,17 +7,8 @@
 @import '@skeletonlabs/skeleton'; 
 @import '@skeletonlabs/skeleton-svelte'; 
 
-@font-face {
-    font-family: "Figtree";
-    src: url("./figtree.ttf");
-}
-@font-face {
-    font-family: "JetbrainsMono";
-    src: url("./jetbrains-mono.ttf");
-}
-
 @theme {
-    --font-mono: "JetbrainsMono", monospace;
+    --font-mono: "Jetbrains Mono", monospace;
 }
 
 [data-theme='frost'] {
@@ -47,8 +40,8 @@
 	--anchor-text-decoration-active: none;
 	--anchor-text-decoration-focus: none;
 	--spacing: 0.25rem;
-	--radius-base: 0.5rem;
-	--radius-container: 0.5rem;
+	--radius-base: 0rem;
+	--radius-container: 0rem;
 	--default-border-width: 1px;
 	--default-divide-width: 1px;
 	--default-ring-width: 1px;

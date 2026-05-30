@@ -35,7 +35,10 @@
     <meta content="{color}" data-react-helmet="true" name="theme-color" />
 {/if}
 
-{#if title} <meta property="og:title" content="{title}" /> {/if}
+{#if title}
+    <meta property="og:title" content="{title}" />
+    <title>{title}</title>    
+{/if}
 {#if description} <meta property="og:description" content="{description}" /> {/if}
 {#if siteName} <meta property="og:site_name" content="{siteName}" /> {/if}
 

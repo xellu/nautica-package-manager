@@ -4,6 +4,7 @@ debug = false # Enables tools and endpoints useful of debugging
 [services]
 http = true # Enables the HTTP Server service
 shell = true # Enables command execution and console input
+mongodb = true # Enable MongoDB Connector
 
 [http]
 host = "127.0.0.1" # Use 0.0.0.0 to expose your app, 127.0.0.1 to keep local
