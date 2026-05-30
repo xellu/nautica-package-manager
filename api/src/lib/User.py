@@ -46,3 +46,11 @@ class User:
         self._user[key] = value
         Services["MongoDB"]("napm_users").update_one({"userId": self._id}, {"$set": {key: value}})
         
+    def toDict(self):
+        allowedKeys = ["userId", "username"]
+        
+        out = {}
+        for k in allowedKeys:
+            out[k] = self._user.get(k)
+        
+        return out

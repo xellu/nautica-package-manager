@@ -10,7 +10,7 @@ import time
 @HTTP.Require(
     body = {"username": str, "password": str}
 )
-def login(ctx: Context):
+async def login(ctx: Context):
     user: User = User.getByUsername(ctx.body["username"])
     
     if not user or not user.verify(ctx.body["password"]):
@@ -30,7 +30,7 @@ def login(ctx: Context):
 @HTTP.Require(
     body = {"username": str, "password": str}
 )
-def register(ctx: Context):
+async def register(ctx: Context):
     if len(ctx.body["username"]) > 40: raise Error(400, "Username too long", details="40 characters maximum")
     if len(ctx.body["username"]) < 3: raise Error(400, "Username too short", details="3 characters minimum")
     if len(ctx.body["password"]) < 8: raise Error(400, "Password too short", details="8 characters minium")
@@ -49,3 +49,8 @@ def register(ctx: Context):
         r.maxAge(7 * 24 * 60 * 60)
         
     return r.build()
+
+@HTTP.GET()
+@Auth.Protect()
+async def me(ctx: Context):
+    return ctx.profile.toDict()

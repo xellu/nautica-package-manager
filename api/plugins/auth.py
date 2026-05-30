@@ -108,7 +108,7 @@ class NAuth(Service):
         Services["MongoDB"]("nauth_sessions").delete_many({"expire": {"$ne": None, "$lt": time.time()}})
         Logger.info("Deleted expired sessions")
 
-    async def handleRequest(self, ctx: Context):
+    async def handleRequest(self, ctx: Context, *args, **kwargs):
         sessionId: str | None = None
         
         if time.time() > self.nextClean:
@@ -143,7 +143,9 @@ class NAuth(Service):
             return
         
         try:
-            profile = await maybeAwait(self.config.profileGetter(s))
+            profile = await maybeAwait(self.config.profileGetter(
+                NAuthSession(s["sessionId"], s["refId"], s["expire"])
+            ))
             setattr(ctx, "profile", profile)
         except Exception as e:
             Logger.trace(e)
