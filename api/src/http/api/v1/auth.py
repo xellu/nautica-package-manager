@@ -105,3 +105,12 @@ async def captcha(ctx: Context):
 @Auth.Protect()
 async def me(ctx: Context):
     return ctx.profile.toDict()
+
+@HTTP.POST()
+@Auth.Protect()
+async def logout(ctx: Context):
+    cookie = ctx.cookies.get("session")
+    if not cookie:
+        raise Error(StatusCodes.BAD_REQUEST, "No cookie found")
+    
+    Auth.deleteSession(cookie)

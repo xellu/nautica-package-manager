@@ -4,12 +4,16 @@
 
     import { AuthState, type AuthStateType } from "$lib/scripts/Auth";
 
+    let { className = "" } = $props();
+
     let State: AuthStateType = $state({loading: true, loggedIn: false})
     AuthState.subscribe((value) => { State = value; })
+
+    let search: string = $state("");
 </script>
 
 
-<div class=" bg-surface-100-900 p-3 w-full">
+<div class=" bg-surface-100-900 p-3 w-full z-50 {className}">
     <Page className="flex items-center justify-between">
         <!-- branding -->
         <a href="/" class="flex gap-3">
@@ -19,6 +23,15 @@
                 <p class="text-xs">Package Registry</p>
             </div>
         </a>
+
+        <div class="flex max-md:hidden">    
+            <input type="text" class="input max-w-64" placeholder="Search for packages" bind:value={search}>
+            <a href="/search?q={encodeURIComponent(search)}">
+                <button class="btn preset-filled-primary-500 ">
+                    <span class="material-symbols-sharp">search</span>
+                </button>
+            </a>
+        </div>
 
         <!-- links -->
         {#if !State.loading}
@@ -32,6 +45,8 @@
             </div>
             {/if}
 
+        {:else}
+            <div class="opacity-0">.</div>
         {/if}
     </Page>
 </div>

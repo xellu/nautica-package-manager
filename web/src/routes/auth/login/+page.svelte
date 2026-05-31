@@ -11,6 +11,8 @@
         rememberMe: false
     })
 
+    let blockInput: boolean = $state(false);
+
 
 </script>
 
@@ -22,7 +24,7 @@
         <h1 class="h6">Log In</h1>
 
         <div class="flex gap-3 mt-5">
-            <div class="w-1/2">
+            <div class="w-1/2 max-md:w-full">
                 <form class="flex flex-col gap-3">
                     <label>
                         <span class="text-xs uppercase font-bold">Username</span>
@@ -47,15 +49,21 @@
                             disabled={!form.username || !form.password}
                             
                             onclick={async() => {
+                                blockInput = true;
                                 const r = await LogIn(form.username, form.password, form.rememberMe);
+                                
                                 if (!r.loggedIn) {
+                                    setTimeout(() => { blockInput = false; }, 1000)
+
                                     toaster.error({
                                         title: "Login Failed",
                                         description: r.error || "Unknown Error"
                                     })
                                 }
                                 
-                                await Authenticate();
+                                Authenticate().then(() => {
+                                    window.location.href = "/dashboard";
+                                });
                             }}
                         >Continue</button>
                     </div>
@@ -63,9 +71,9 @@
                 </form>
             </div>
 
-            <div class="w-1/2">
-                <p>hello world</p>
-                <p>{form.username}, {form.password}</p>
+            <div class="w-1/2 flex items-center justify-center gap-3 -mt-6 select-none max-md:hidden">
+                <img src="/icon.svg" alt="" class="h-12 {blockInput ? 'animate-spin' : ''}" draggable="false">
+                <img src="/text.svg" alt="" class="h-6" draggable="false">
             </div>
         </div>
     </div>
