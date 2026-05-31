@@ -23,7 +23,8 @@ enabled = true # Enable Cross-Origin Resource Sharing (refer to https://develope
 origins = ["*"] # List of allowed origins (Access-Control-Allow-Origin), empty list blocks all origins
 methods = ["*"] # List of allowed methods (Access-Control-Request-Method)
 headers = ["*"] # List of allowed headers (Access-Control-Request-Headers)
-credentials = false # Allow cookies and auth headers (Authorization) to be sent with cross-origin requests
+credentials = true # Allow cookies and auth headers (Authorization) to be sent with cross-origin requests
+exposeHeaders = ["n-captcha-id"] # List of exposed headers
 
 [shell]
 systemdMode = false # Disables console input, to work as a systemd service

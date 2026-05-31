@@ -13,7 +13,7 @@ def UserTemplate():
 
 class User:
     def __init__(self, _id: str = None, _user: dict = None):
-        self._id = _id or _user["userId"]
+        self._id = _id or _user.get("userId")
         
         self._user = _user or Services["MongoDB"]("napm_users").find_one({"userId": _id})
         if not self._user:
@@ -34,7 +34,10 @@ class User:
     
     @staticmethod
     def getByUsername(username: str):
-        return User(_user=Services["MongoDB"]("napm_users").find_one({"username": username.lower()}))
+        u = Services["MongoDB"]("napm_users").find_one({"username": username.lower()})
+        if not u: return
+        
+        return User(_user=u)
     
     def verify(self, password: str) -> bool:
         return self._user["password"] == hashStr(f"{self._id}${password}")
