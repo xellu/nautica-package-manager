@@ -1,5 +1,6 @@
 from nautica import Service, Config, ConfigBuilder, Logger, Services, Scheduler
 from nautica.ext.Util import maybeAwait
+from nautica.ext.Path import getRoot
 from napi.http import Context, HTTP, Error, StatusCodes
 
 
@@ -65,8 +66,8 @@ class NAuth(Service):
         return Config("nautica")["services.nauth"]
 
     def onStart(self, registry):
-        if not os.path.exists("src/nauth/__init__.py"):
-            with open(f"src/nauth/__init__.py", "w") as f: f.write(NAuthPreset)
+        if not os.path.exists(getRoot("src", "nauth", "__init__.py")):
+            with open(getRoot("src", "nauth", "__init__.py"), "w") as f: f.write(NAuthPreset)
             
     def onClose(self, reason):
         pass

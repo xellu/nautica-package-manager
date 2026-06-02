@@ -1,5 +1,5 @@
 [nautica]
-debug = true # Enables tools and endpoints useful of debugging
+debug = false # Enables tools and endpoints useful of debugging
 
 [services]
 http = true # Enables the HTTP Server service
