@@ -61,3 +61,25 @@ def about(ctx: Context, package: str):
         raise Error(404, "Package does not exist")
     
     return p.toDict()
+
+@HTTP.GET("/page/{package:str}/{version:str}")
+def page(ctx: Context, package: str, version: str):
+    p = Package(package)
+    if not p.exists():
+        raise Error(404, "Package does not exist")
+    
+    page = p.toDict()
+    page["readMe"] = "No README available to show."
+    
+    release = p.latestVersion() if not version else p.getVersion(version)
+    if release is None:
+        raise Error(404, "Release not found")
+    
+    with ZipFile(release.get("fileUrl"), "r") as zf:
+        try:
+            with zf.open("README.md", "r") as f:
+                page["readMe"] = f.read()
+        except:
+            pass
+        
+    return page

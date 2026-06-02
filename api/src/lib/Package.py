@@ -13,6 +13,7 @@ def PackageTemplate():
     return {
         "name": "",
         "versions": [], #PackageVersion
+        "installs": 0,
 
         "displayName": "",
         "brief": "", #short description
@@ -79,7 +80,20 @@ class Package:
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
         
         return True, ""
+    
+    def latestVersion(self) -> None | dict:
+        latest = None
+        for version in self._data.get("versions", []):
+            if not latest: latest = version
+            if version.get("createdAt") > latest.get("createdAt"): latest = version
             
+        return latest
+            
+    def getVersion(self, versionId) -> None | dict:
+        for v in self._data.get("versions", []):
+            if v.get("id") == versionId: return v
+            
+             
     #permissions
     def isMaintainer(self, user: User) -> bool:
         return user._id in self._data.get("maintainers", [])
