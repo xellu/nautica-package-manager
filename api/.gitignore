@@ -29,6 +29,7 @@ MANIFEST
 # Nautica3
 .logs/
 config/
+static/
 
 # PyInstaller
 *.manifest

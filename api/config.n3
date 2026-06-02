@@ -14,9 +14,9 @@ realIPHeader = "" # Name of the header which has the real ip, e.g. X-Real-IP, CF
 websockets = false # Enable support for WebSockets
 
 [http.static]
-enabled = false # Set to true if you wish to send static files from a directory
-endpoint = "/static" # Endpoint by which the static directory will be reached
-directory = "/path/to/directory" # Files in this directory will be accessible by sending a GET request to endpoint above
+enabled = true # Set to true if you wish to send static files from a directory
+endpoint = "/api/v1/static" # Endpoint by which the static directory will be reached
+directory = "static" # Files in this directory will be accessible by sending a GET request to endpoint above
 
 [http.cors]
 enabled = true # Enable Cross-Origin Resource Sharing (refer to https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS)
