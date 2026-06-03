@@ -12,6 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
+		"@shikijs/markdown-it": "^4.2.0",
 		"@skeletonlabs/skeleton": "^4.15.2",
 		"@skeletonlabs/skeleton-svelte": "^4.15.2",
 		"@sveltejs/adapter-auto": "^7.0.1",
@@ -25,5 +26,12 @@
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7"
+	},
+	"dependencies": {
+		"dompurify": "^3.4.8",
+		"dotenv": "^17.4.2",
+		"marked": "^18.0.4",
+		"marked-shiki": "^1.2.1",
+		"shiki": "^4.2.0"
 	}
 }

@@ -29,7 +29,9 @@
 	})
 
 	const ICONS: string[] = [
-		"search"
+		"search",
+		"package_2",
+		"check",
 		
 	].toSorted();
 </script>

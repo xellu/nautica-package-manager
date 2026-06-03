@@ -25,24 +25,15 @@ export function walkDict(obj: any, prefix = ""): {key: string, type: string, val
 
 export function toDate(date: Date): string {
     const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
 
     const day = date.getDate();
     const month = months[date.getMonth()];
     const year = date.getFullYear();
 
-    const suffix =
-        day % 100 >= 11 && day % 100 <= 13
-            ? "th"
-            : day % 10 === 1
-                ? "st"
-                : day % 10 === 2
-                    ? "nd"
-                    : day % 10 === 3
-                        ? "rd"
-                        : "th";
 
-    return `${day}${suffix} of ${month}, ${year}`;
+
+    return `${day} ${month}, ${year}`;
 }

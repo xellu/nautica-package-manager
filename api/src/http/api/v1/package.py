@@ -3,6 +3,7 @@ from nautica import Services
 from nautica.models.Http import AttachedFile
 
 from src.lib.Package import Package
+from src.lib.User import User
 from src.nauth import Auth
 
 import tomlkit
@@ -71,14 +72,23 @@ def page(ctx: Context, package: str, version: str):
     page = p.toDict()
     page["readMe"] = "No README available to show."
     
-    release = p.latestVersion() if not version else p.getVersion(version)
+    maintainers = []
+    for userId in page.get("maintainers", []):
+        try: u = User(userId)
+        except: u = {"username": "(INACCESSIBLE)"}
+        maintainers.append({"username": u["username"], "id": userId})
+    
+    page["maintainersExpanded"] = maintainers
+    page["ownerExpanded"] = {"username": User(page["owner"])["username"], "id": page["owner"]}
+    
+    release = p.latestVersion() if version == "latest" else p.getVersion(version)
     if release is None:
         raise Error(404, "Release not found")
     
     with ZipFile(release.get("fileUrl"), "r") as zf:
         try:
             with zf.open("README.md", "r") as f:
-                page["readMe"] = f.read()
+                page["readMe"] = f.read().decode()
         except:
             pass
         
