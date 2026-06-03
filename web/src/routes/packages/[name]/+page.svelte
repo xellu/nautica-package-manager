@@ -59,7 +59,7 @@
         <h3 class="uppercase font-bold text-sm text-surface-700-300 mt-10">Versions</h3>
         <div class="flex flex-col gap-1">
             {#each p.versions.reverse() as ver, i}
-                <a href="/packages/{p.name}/{ver.id}" title="{ver.id}">
+                <a href="/packages/{p.name}{i == 0 ? '' : `/${ver.id}`}" title="{ver.id}">
                     <button class="btn w-full font-mono {i == 0 ? 'preset-filled-surface-100-900' : 'hover:preset-filled-surface-100-900'}">
                         <div class="w-full flex items-center justify-between">
                             <span class="font-semibold">v{ver.id}</span>
