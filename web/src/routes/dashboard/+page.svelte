@@ -5,13 +5,14 @@
     import { onMount } from "svelte";
 
     import { Account, type AccountType } from "$lib/scripts/Auth.js";
+  import Markdown from "$lib/components/Markdown.svelte";
 
     let User: AccountType | null = $state(null);
     Account.subscribe((value) => { User = value })
 
     let { data } = $props();
     let packages: Package[] = $derived(
-        [...data.packages].sort((a, b) => {
+        [...(data.packages ?? [])].sort((a, b) => {
             const latestA = Math.max(...a.versions.map(v => v.createdAt), 0);
             const latestB = Math.max(...b.versions.map(v => v.createdAt), 0);
             return latestB - latestA;
@@ -55,4 +56,71 @@
 
         </div>
     {/each}
+
+    <!-- publishing guide -->
+    {#if packages.length == 0}
+        <h2 class="h2">Nothing to show here</h2>
+        <p class="mb-32">Packages you publish will show up here</p>
+
+        <!-- i cba to do this properly -->
+        <Markdown content = {`
+## Creating Packages
+A Nautica package is a self-contained service you can publish to the registry and install into any Nautica project.
+
+To create a new package:
+\`\`\`bash
+nautica package create myservice # the name has to be unique
+\`\`\`
+
+This generates a project structure with \`__init__.py\` as the entry point and \`project.n3\` for metadata:
+\`\`\`toml
+# a-z0-9._- only, must be unique on the registry
+name = "myservice"
+
+# follows semver — bump this before every publish
+version = "1.0.0"
+
+# other Nautica packages this service depends on
+dependsOn = []
+
+# PyPI packages this service depends on
+pyPackages = []
+\`\`\`
+
+_Your package can have multiple files. \`__init__.py\` & \`project.n3\` in the project's root are the only requirements._
+
+***
+
+## Testing
+Nautica tests your service in a real runtime environment rather than with unit tests. It creates a full Nautica project and injects your package as a plugin, so you'll be testing in production environment.
+
+Create the test environment:
+\`\`\`bash
+nautica package env
+\`\`\`
+
+And run the test:
+\`\`\`bash
+nautica package test
+# This will copy your project into the environments \`plugin/\` directory
+\`\`\`
+
+Run \`nautica package\` for list of all available commands
+
+***
+
+## Publishing
+Before publishing, make sure the \`version\` field in \`project.n3\` is updated. Publishing the same version twice will fail.
+
+\`\`\`bash
+nautica package publish
+\`\`\`
+
+
+Your package will be available on
+${window.location.protocol}//${window.location.host}/packages/your-package-name
+
+_You may be prompted to sign into your NPR account._
+        `} />
+    {/if}
 </div>

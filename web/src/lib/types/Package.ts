@@ -1,6 +1,6 @@
 export type PackageVersion = {
     id: string,
-    fileUrl: string,
+    file: string,
     author: string,
     createdAt: number
 }

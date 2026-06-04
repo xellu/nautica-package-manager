@@ -25,7 +25,8 @@ def PackageTemplate():
 def PackageVersion():
     return {
         "id": "0.0.0",
-        "fileUrl": "", #link to package.zip
+        "file": "", #link to package.zip
+        "hash": "",
         "author": "", #user id
         "createdAt": time.time()
     }
@@ -73,7 +74,7 @@ class Package:
         
         version = PackageVersion()
         version["id"] = versionId
-        version["fileUrl"] = filename
+        version["file"] = filename
         version["author"] = author._id
         
         self._data["versions"].append(version)

@@ -1,4 +1,4 @@
-from napi.http import HTTP, Context, Reply, Error, Require
+from napi.http import HTTP, Context, Reply, Error, Require, RedirectResponse, FileResponse
 from nautica import Services
 from nautica.models.Http import AttachedFile
 
@@ -6,6 +6,7 @@ from src.lib.Package import Package
 from src.lib.User import User
 from src.nauth import Auth
 
+import os
 import tomlkit
 from zipfile import  ZipFile
 
@@ -22,8 +23,8 @@ async def publish(ctx: Context):
             meta = tomlkit.loads(f.read().decode("utf-8"))
             name = meta.get("name")
             version = meta.get("version")
-            dependsOn = meta.get("dependsOn", [])
-            pyPackages = meta.get("pyPackages", [])
+            # dependsOn = meta.get("dependsOn", []) #not rly needed
+            # pyPackages = meta.get("pyPackages", [])
     
     #validate meta
     if not name:
@@ -55,14 +56,6 @@ def versions(ctx: Context):
     
     return p.toDict().get("versions")
 
-@HTTP.GET("/about/{package:str}")
-def about(ctx: Context, package: str):
-    p = Package(package)
-    if not p.exists():
-        raise Error(404, "Package does not exist")
-    
-    return p.toDict()
-
 @HTTP.GET("/page/{package:str}/{version:str}")
 def page(ctx: Context, package: str, version: str):
     p = Package(package)
@@ -85,7 +78,7 @@ def page(ctx: Context, package: str, version: str):
     if release is None:
         raise Error(404, "Release not found")
     
-    with ZipFile(release.get("fileUrl"), "r") as zf:
+    with ZipFile(release.get("file"), "r") as zf:
         try:
             with zf.open("README.md", "r") as f:
                 page["readMe"] = f.read().decode()
@@ -93,3 +86,18 @@ def page(ctx: Context, package: str, version: str):
             pass
         
     return page
+
+@HTTP.GET("/install/{package:str}/{version:str}")
+def install(ctx: Context, package: str, version: str):
+    p = Package(package)
+    if not p.exists():
+        raise Error(404, "Package does not exist")
+
+    ver = p.getVersion(version)
+    if not ver:
+        raise Error(404, "Package version does not exist")
+    
+    if ver.get("file").startswith("static"):
+        return FileResponse(path=ver["file"], filename=os.path.basename(ver["file"]))
+    
+    return RedirectResponse(url=ver.get("file"))

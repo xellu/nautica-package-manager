@@ -63,6 +63,8 @@
             <div class="w-full h-full flex items-center justify-center">    
                 <img src="/icon.svg" alt="" class="w-32 animate-spin">
             </div>
+
+            <!-- <p>{State.loading}, {State.loggedIn}</p> -->
         {:else}
             {@render children()}
         {/if}
