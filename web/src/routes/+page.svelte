@@ -7,6 +7,7 @@
 <svelte:head>
     <Embed
         title = "Nautica Package Registry"
+        description = "The official package registry for Nautica. Discover, publish and install services for your Nautica projects."
     />
 </svelte:head>
 

@@ -2,6 +2,7 @@
     import Navbar from '$lib/components/Navbar.svelte';
     import Page from '$lib/components/Page.svelte';
     import Markdown from '$lib/components/Markdown.svelte';
+    import Embed from '$lib/components/Embed.svelte';
     
     import { API_URL } from '$lib/Config.js';
     import { scale } from 'svelte/transition';
@@ -14,6 +15,11 @@
 
     let copied: boolean = $state(false);
 </script>
+
+<Embed
+    title = {`${p.displayName} | Nautica PR`}
+    description = {p.brief || 'No description provided'}
+/>
 
 <Navbar />
 <Page className="flex mt-16 gap-16 items-start">

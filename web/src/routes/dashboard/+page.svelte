@@ -1,11 +1,13 @@
 <script lang="ts">
+    import Markdown from "$lib/components/Markdown.svelte";
+    import Embed from "$lib/components/Embed.svelte";
+
     import { toaster } from "$lib/scripts/Toaster";
 
     import type { Package } from "$lib/types/Package";
     import { onMount } from "svelte";
 
     import { Account, type AccountType } from "$lib/scripts/Auth.js";
-  import Markdown from "$lib/components/Markdown.svelte";
 
     let User: AccountType | null = $state(null);
     Account.subscribe((value) => { User = value })
@@ -28,6 +30,13 @@
         // console.log(packages)
     })
 </script>
+
+<svelte:head>
+    <Embed
+        title = "My Packages | Dashboard"
+    
+    />
+</svelte:head>
 
 <div class="flex flex-col gap-5">
     {#each packages as p}

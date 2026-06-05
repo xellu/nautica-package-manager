@@ -1,6 +1,7 @@
 <script lang="ts">
     import Navbar from "$lib/components/Navbar.svelte";
     import Page from "$lib/components/Page.svelte";
+    import Embed from "$lib/components/Embed.svelte";
 
     import { Authenticate, LogIn } from "$lib/scripts/Auth";
     import { toaster } from "$lib/scripts/Toaster";
@@ -15,6 +16,11 @@
 
 
 </script>
+
+<svelte:head>
+    <Embed title = "Sign In | Nautica PR" />
+</svelte:head>
+
 
 <Navbar />
 <Page className="my-16">
