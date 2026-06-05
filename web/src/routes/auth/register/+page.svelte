@@ -107,6 +107,10 @@
                                 blockInput = true;
                                 await Authenticate();
                                 setTimeout(() => { blockInput = false}, 1000);
+
+                                if (r.loggedIn) {
+                                    window.location.href = "/dashboard"
+                                }
                             }}
                         >Continue</button>
                     </div>
