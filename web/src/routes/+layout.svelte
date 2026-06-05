@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/Favicon.svg';
 
 	import { Toast } from '@skeletonlabs/skeleton-svelte';
 	import { onMount } from 'svelte';
