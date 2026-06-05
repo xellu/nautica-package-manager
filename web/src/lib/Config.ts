@@ -1,1 +1,3 @@
-export const API_URL: string = "http://localhost:8100/api/v1"
+import { PUBLIC_API_URL } from '$env/static/public'
+
+export const API_URL: string = PUBLIC_API_URL

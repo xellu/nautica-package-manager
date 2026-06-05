@@ -54,7 +54,7 @@ class PackageAdmin(Service):
                 return
             
             p["versions"].remove(ver)
-            if ver.startswith("static"):
+            if ver.get("file", "").startswith("static"):
                 ok, _, _ = rmFile(ver.get("file"))
                 if ok: Logger.ok("Removed from storage")
                 else: Logger.error("Failed to remove from storage")

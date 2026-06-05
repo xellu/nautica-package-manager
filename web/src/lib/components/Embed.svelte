@@ -13,7 +13,7 @@
     let {
         title = null,
         description = null,
-        siteName = "xellu.xyz",
+        siteName = "napm.xellu.xyz",
         icon = "default",
         iconUrl = "",
         route = "/",
@@ -29,7 +29,7 @@
 
     <meta name="title" content="{title}" />
 
-    <meta property="og:url" content="https://xellu.xyz{route}" />
+    <meta property="og:url" content="https://napm.xellu.xyz{route}" />
     <meta property="og:type" content="website" />
 
     <meta content="{color}" data-react-helmet="true" name="theme-color" />

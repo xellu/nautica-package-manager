@@ -49,7 +49,7 @@ async def register(ctx: Context):
     Services["MongoDB"]("captchas").delete_one({"captchaId": ctx.body["captchaId"]}) #clear captcha
     
     user = User.create(
-        ctx.body["username"],
+        ctx.body["username"].lower(),
         ctx.body["password"]
     )
     remember = ctx.body.get("rememberMe")

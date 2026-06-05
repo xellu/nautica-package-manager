@@ -25,6 +25,7 @@ async def publish(ctx: Context):
             version = meta.get("version")
             # dependsOn = meta.get("dependsOn", []) #not rly needed
             # pyPackages = meta.get("pyPackages", [])
+    package.file.file.seek(0)
     
     #validate meta
     if not name:
@@ -93,7 +94,7 @@ def install(ctx: Context, package: str, version: str):
     if not p.exists():
         raise Error(404, "Package does not exist")
 
-    ver = p.getVersion(version)
+    ver = p.latestVersion() if version == "latest" else p.getVersion(version)
     if not ver:
         raise Error(404, "Package version does not exist")
     
