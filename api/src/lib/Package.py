@@ -72,17 +72,14 @@ class Package:
         filename = f"static/{self.name}-{versionId}-{author._id}.zip"
         with open(filename, "wb") as f:
             f.write(zipBytes)
-        print(f"SAVED FILE TO {filename}")
         
         version = PackageVersion()
         version["id"] = versionId
         version["file"] = filename
         version["author"] = author._id
-        print(f"{version=}")
         
         self._data["versions"].append(version)
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
-        print(f"Saved to db: {self._data=}")
         
         return True, ""
     

@@ -17,40 +17,29 @@ from zipfile import  ZipFile
 )
 @Auth.Protect()
 async def publish(ctx: Context):
-    print("entry")
     package: AttachedFile = ctx.files["package"]
-    
-    print("b4 read")
     zipBytes = await package.read()
+    
     with ZipFile(io.BytesIO(zipBytes), "r") as zf:
         with zf.open("project.n3", "r") as f:
             meta = tomlkit.loads(f.read().decode("utf-8"))
             name = meta.get("name")
             version = meta.get("version")
-            print(f"UNZIP: {name=}, {version=}")
-            # dependsOn = meta.get("dependsOn", []) #not rly needed
-            # pyPackages = meta.get("pyPackages", [])
         
-    print("after read")
-    
     #validate meta
     if not name:
         raise Error(400, "Malformed project.n3", "No name specified")
     if not version:
         raise Error(400, "Malformed project.n3", "No version specified")
     
-    print("passed checks")
     
     p = Package(name)
     if not p.exists(): #create package
         ok, error = p.create(ctx.profile)
         if not ok:
             raise Error(400, error)
-        
-    print("passed duplicates")
-        
+                
     ok, error = await p.addVersion(ctx.profile, version, zipBytes)
-    print(f"create {ok=} {error=}")
     if not ok:
         raise Error(400, error)
     
