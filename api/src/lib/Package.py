@@ -1,4 +1,4 @@
-from nautica import Services
+from nautica import Services, Logger
 from nautica.models.Http import AttachedFile
 from src.lib.User import User
 
@@ -71,6 +71,7 @@ class Package:
         #save file
         filename = f"static/{self.name}-{versionId}-{author._id}.zip"
         await file.save(filename)
+        Logger.info(f"SAVED FILE TO {filename}")
         
         version = PackageVersion()
         version["id"] = versionId
