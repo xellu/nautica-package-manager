@@ -54,6 +54,10 @@ async def publish(ctx: Context):
     
     return Reply(ok=True)
 
+@HTTP.Before(publish)
+def before_pub(ctx: Context):
+    Logger.dir(ctx)
+
 @HTTP.GET()
 @HTTP.Require(
     query = {"package": str}
