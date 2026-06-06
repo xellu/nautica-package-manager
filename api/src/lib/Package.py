@@ -77,9 +77,11 @@ class Package:
         version["id"] = versionId
         version["file"] = filename
         version["author"] = author._id
+        Logger.info(f"{version=}")
         
         self._data["versions"].append(version)
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
+        Logger.info(f"Saved to db: {self._data=}")
         
         return True, ""
     

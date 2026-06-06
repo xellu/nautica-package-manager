@@ -2,9 +2,13 @@ from nautica import Service, Logger
 from nautica.ext.Util import rmFile
 from nautica.services.builtins.shell.decorator import RegisterCommand, CommandRequirements
 
+import os
 import datetime
 
 class PackageAdmin(Service):
+    def onInstall(self):
+        os.makedirs("static", exist_ok=True)
+    
     def onStart(self, registry):
         @RegisterCommand(
             "rmpackage", "Delete a package off the registry",
