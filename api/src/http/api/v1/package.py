@@ -25,7 +25,8 @@ async def publish(ctx: Context):
             version = meta.get("version")
             # dependsOn = meta.get("dependsOn", []) #not rly needed
             # pyPackages = meta.get("pyPackages", [])
-    package.file.file.seek(0)
+    
+    await package.file.seek(0)
     
     #validate meta
     if not name:
