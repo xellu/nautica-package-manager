@@ -71,17 +71,17 @@ class Package:
         #save file
         filename = f"static/{self.name}-{versionId}-{author._id}.zip"
         await file.save(filename)
-        Logger.info(f"SAVED FILE TO {filename}")
+        print(f"SAVED FILE TO {filename}")
         
         version = PackageVersion()
         version["id"] = versionId
         version["file"] = filename
         version["author"] = author._id
-        Logger.info(f"{version=}")
+        print(f"{version=}")
         
         self._data["versions"].append(version)
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
-        Logger.info(f"Saved to db: {self._data=}")
+        print(f"Saved to db: {self._data=}")
         
         return True, ""
     
