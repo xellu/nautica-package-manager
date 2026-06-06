@@ -6,6 +6,7 @@ from src.lib.Package import Package
 from src.lib.User import User
 from src.nauth import Auth
 
+import io
 import os
 import tomlkit
 from zipfile import  ZipFile
@@ -20,7 +21,8 @@ async def publish(ctx: Context):
     package: AttachedFile = ctx.files["package"]
     
     print("b4 read")
-    with ZipFile(package.file.file, "r") as zf:
+    zipBytes = await package.read()
+    with ZipFile(io.BytesIO(zipBytes), "r") as zf:
         with zf.open("project.n3", "r") as f:
             meta = tomlkit.loads(f.read().decode("utf-8"))
             name = meta.get("name")
@@ -47,7 +49,7 @@ async def publish(ctx: Context):
         
     print("passed duplicates")
         
-    ok, error = await p.addVersion(ctx.profile, version, package)
+    ok, error = await p.addVersion(ctx.profile, version, zipBytes)
     print(f"create {ok=} {error=}")
     if not ok:
         raise Error(400, error)

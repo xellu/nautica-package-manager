@@ -56,7 +56,7 @@ class Package:
         Services["MongoDB"]("packages").insert_one(p)
         return True, ""
     
-    async def addVersion(self, author: User, versionId: str, file: AttachedFile) -> tuple[bool, str]:
+    async def addVersion(self, author: User, versionId: str, zipBytes: bytes) -> tuple[bool, str]:
         #perms
         if not self.canEdit(author):
             return False, "Insufficient permissions"
@@ -70,7 +70,8 @@ class Package:
         
         #save file
         filename = f"static/{self.name}-{versionId}-{author._id}.zip"
-        await file.save(filename)
+        with open(filename, "wb") as f:
+            f.write(zipBytes)
         print(f"SAVED FILE TO {filename}")
         
         version = PackageVersion()
