@@ -22,9 +22,9 @@
 />
 
 <Navbar />
-<Page className="flex mt-16 gap-16 items-start">
+<Page className="flex mt-16 gap-16 items-start max-md:flex-col">
     <!-- about package -->
-    <div class="card preset-outlined-surface-100-900 p-3 w-72">
+    <div class="card preset-outlined-surface-100-900 p-3 md:w-72 w-full">
         <!-- package hero -->
         <div class="flex gap-3 items-center">
             <span class="material-symbols-sharp">package_2</span>

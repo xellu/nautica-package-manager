@@ -22,7 +22,7 @@
 
     onMount(async () => {
         const params = new URLSearchParams(window.location.search);
-        if (!params.has("q")) {
+        if (!params.has("q") || !params.get("q")) {
             window.location.href = "/"
             return
         }
@@ -50,7 +50,8 @@
 
 <Navbar />
 <Page className="mt-32">
-    <div class="flex max-md:hidden">    
+    <a href="/" class="font-mono">{'<-'} Home</a>
+    <div class="flex mt-3">    
         <input type="text" class="input w-full" placeholder="Search for packages" bind:value={search} onkeypress={(e) => {
             if (!search) { return; }
             if (e.key == "Enter") { window.location.href = `/search?q=${encodeURIComponent(search)}`; }

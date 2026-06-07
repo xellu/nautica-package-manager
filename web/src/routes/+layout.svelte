@@ -33,6 +33,7 @@
 		"search",
 		"package_2",
 		"check",
+		"menu",
 		
 	].toSorted();
 </script>

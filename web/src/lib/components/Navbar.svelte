@@ -41,10 +41,10 @@
         {#if !State.loading}
 
             {#if State.loggedIn}
-            <a href="/dashboard" class="btn preset-filled-tertiary-500" transition:slide={{axis: "y"}}>Dashboard</a>
+            <a href="/dashboard" class="btn preset-filled-tertiary-500 max-sm:btn-sm" transition:slide={{axis: "y"}}>Dashboard</a>
             {:else}
             <div class="flex gap-3" transition:slide={{axis: "y"}}>
-                <a href="/auth/register" class="btn hover:underline">Register</a>
+                <a href="/auth/register" class="btn hover:underline max-sm:hidden">Register</a>
                 <a href="/auth/login" class="btn preset-filled-tertiary-500">Log In</a>
             </div>
             {/if}

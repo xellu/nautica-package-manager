@@ -49,7 +49,7 @@
                 </div>
 
                 
-                <div class="flex items-center">
+                <div class="flex items-center max-md:hidden">
                     <a href="/packages/{p.name}"><button class="btn preset-outlined-primary-500 py-1">View</button></a>
                     <a href="/packages/{p.name}/edit"><button class="btn preset-filled-primary-500 py-1.25">Edit</button></a>
                 </div>
@@ -62,6 +62,11 @@
             {:else}
                 <a href="/packages/{p.name}/edit" class="font-mono underline">Add a description to help others find your package {'->'}</a>
             {/if}
+
+            <div class="flex items-center md:hidden max-md:mt-5">
+                <a href="/packages/{p.name}" class="grow"><button class="btn btn-sm preset-outlined-primary-500 py-1 w-full">View</button></a>
+                <a href="/packages/{p.name}/edit" class="grow"><button class="btn btn-sm preset-filled-primary-500 py-1.25 w-full">Edit</button></a>
+            </div>
 
         </div>
     {/each}

@@ -52,7 +52,7 @@
 
 <Navbar />
 <Page className="mt-32">
-    <div class="flex max-md:hidden">    
+    <div class="flex">    
         <input type="text" class="input w-full" placeholder="Search for packages" bind:value={search} onkeypress={(e) => {
             if (!search) { return; }
             if (e.key == "Enter") { window.location.href = `/search?q=${encodeURIComponent(search)}`; }
@@ -68,7 +68,7 @@
     <h3 class="h3 mt-16 mb-5">Popular Packages</h3>
 
     {#if featured}
-    <div class="grid grid-cols-5 gap-5">
+    <div class="grid xl:grid-cols-5 lg:grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-5">
         {#each featured as p}
             <a href="/packages/{p.name}">
                 <div class="card preset-filled-surface-100-900 p-3 h-72 overflow-y-hidden group">
@@ -89,7 +89,7 @@
         {/each}
     </div>
     {:else}
-        <div class="grid grid-cols-5 gap-5 animate-pulse">
+        <div class="grid xl:grid-cols-5 lg:grid-cols-3 grid-cols-2 gap-5 animate-pulse">
         {#each emptyArr(10) as p}
             <div class="card preset-filled-surface-100-900 p-3 h-72 animate-shimmer"></div>
 
