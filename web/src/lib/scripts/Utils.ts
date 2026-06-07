@@ -37,3 +37,14 @@ export function toDate(date: Date): string {
 
     return `${day} ${month}, ${year}`;
 }
+
+export function emptyArr(length: number): null[] {
+    let arr: null[] = [];
+
+    for (let i = 0; i < length; i++) {
+        arr.push(null)
+    }
+
+    console.log(arr)
+    return arr
+}  

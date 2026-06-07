@@ -25,7 +25,11 @@
         </a>
 
         <div class="flex max-md:hidden">    
-            <input type="text" class="input max-w-64" placeholder="Search for packages" bind:value={search}>
+            <input type="text" class="input max-w-64" placeholder="Search for packages" bind:value={search}  onkeypress={(e) => {
+                if (!search) { return; }
+                if (e.key == "Enter") { window.location.href = `/search?q=${encodeURIComponent(search)}`; }
+            }}>
+
             <a href="/search?q={encodeURIComponent(search)}">
                 <button class="btn preset-filled-primary-500 ">
                     <span class="material-symbols-sharp">search</span>

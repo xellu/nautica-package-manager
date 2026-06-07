@@ -1,0 +1,26 @@
+@keyframes shimmer {
+	0% {
+	  background-position: -300% 0;
+	}
+	100% {
+	  background-position: 300% 0;
+	}
+  }
+
+.animate-shimmer::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: linear-gradient(45deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(255,255,255,.05) 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,0) 100%);
+	background-size: 300% 100%;
+	animation: shimmer 10s infinite linear;
+	z-index: 1;
+}
+
+.animate-shimmer {
+	position: relative;
+	overflow: hidden;
+}
