@@ -1,4 +1,4 @@
-from nautica import Services, Logger
+from nautica import Services, Util
 from nautica.models.Http import AttachedFile
 from src.lib.User import User
 
@@ -68,6 +68,8 @@ class Package:
             if v.get("id") == versionId:
                 return False, "Version already exists"
         
+
+        
         #save file
         filename = f"static/{self.name}-{versionId}-{author._id}.zip"
         with open(filename, "wb") as f:
@@ -77,6 +79,7 @@ class Package:
         version["id"] = versionId
         version["file"] = filename
         version["author"] = author._id
+        version["hash"] = Util.hashStr(zipBytes.decode("utf-8"))
         
         self._data["versions"].append(version)
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
@@ -95,6 +98,15 @@ class Package:
         for v in self._data.get("versions", []):
             if v.get("id") == versionId: return v
             
+    def get(self, key, fallback = None):
+        return self._data.get(key, fallback)
+            
+    def __getitem__(self, key):
+        return self._data.get(key)
+    
+    def __setitem__(self, key, value):
+        self._data[key] = value
+        Services["MongoDB"]("packages").update_one({"name": self._data["name"]}, {"$set": {key: value}})
              
     #permissions
     def isMaintainer(self, user: User) -> bool:

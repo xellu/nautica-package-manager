@@ -65,11 +65,11 @@
                                         title: "Login Failed",
                                         description: r.error || "Unknown Error"
                                     })
+                                } else {
+                                    Authenticate().then(() => {
+                                        window.location.href = "/dashboard";
+                                    });
                                 }
-                                
-                                Authenticate().then(() => {
-                                    window.location.href = "/dashboard";
-                                });
                             }}
                         >Continue</button>
                     </div>

@@ -34,6 +34,7 @@
             <span class="chip font-semibold preset-filled-primary-500 -ml-3">Latest</span>
         </div>
         <p class="p-0.5 text-sm text-surface-700-300">Published by <span>@{p.ownerExpanded?.username || '(INACCESSIBLE)'}</span></p>
+        <p class="px-0.5 pb-3 text-sm text-surface-700-300">{p.installs} Installs</p>
 
         <!-- description -->
         <div class="flex w-full mt-3">

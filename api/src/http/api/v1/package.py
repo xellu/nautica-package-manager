@@ -1,5 +1,5 @@
 from napi.http import HTTP, Context, Reply, Error, Require, RedirectResponse, FileResponse
-from nautica import Logger
+from nautica import Logger, Services
 from nautica.models.Http import AttachedFile
 
 from src.lib.Package import Package
@@ -8,6 +8,7 @@ from src.nauth import Auth
 
 import io
 import os
+import math
 import tomlkit
 from zipfile import  ZipFile
 
@@ -82,13 +83,17 @@ def page(ctx: Context, package: str, version: str):
     if release is None:
         raise Error(404, "Release not found")
     
-    with ZipFile(release.get("file"), "r") as zf:
-        try:
-            with zf.open("README.md", "r") as f:
-                page["readMe"] = f.read().decode()
-        except:
-            pass
-        
+    try: 
+        with ZipFile(release.get("file"), "r") as zf:
+            try:
+                with zf.open("README.md", "r") as f:
+                    page["readMe"] = f.read().decode()
+            except:
+                pass
+    except FileNotFoundError:
+        Logger.error(f"Dist file for {version} not found")
+        page["readMe"] = "# Error\n> Distributable for this version is missing"
+            
     return page
 
 @HTTP.GET("/install/{package:str}/{version:str}")
@@ -101,7 +106,47 @@ def install(ctx: Context, package: str, version: str):
     if not ver:
         raise Error(404, "Package version does not exist")
     
+    p["installs"] = p.get("installs", 0) + 1
+    
     if ver.get("file").startswith("static"):
         return FileResponse(path=ver["file"], filename=os.path.basename(ver["file"]))
     
     return RedirectResponse(url=ver.get("file"))
+
+@HTTP.GET()
+def featured():
+    ps = Services["MongoDB"]("packages").find(
+        {},
+        {"_id": 0}
+    ).sort("installs", -1).limit(10)
+    
+    return list(ps)
+
+@HTTP.GET()
+@HTTP.Require(query={"query": str, "page": int})
+def search(ctx: Context):
+    query = ctx.query["query"]
+    page = abs(ctx.query["page"] - 1)
+    limit = 10
+    
+    filter = {
+        "$or": [
+            {"name": {"$regex": query, "$options": "i"}},
+            {"displayName": {"$regex": query, "$options": "i"}},
+            {"brief": {"$regex": query, "$options": "i"}},
+        ]
+    }
+    
+    result_count = Services["MongoDB"]("packages").count_documents(filter)
+    results = Services["MongoDB"]("packages").find(filter, {"_id": 0, "versions": 0}) \
+        .sort("installs", -1) \
+        .skip(page * limit) \
+        .limit(limit)
+        
+    page_count = math.ceil(result_count / limit)
+    
+    return Reply(
+        results = list(results),
+        pageCount = page_count,
+        resultCount = result_count
+    )
