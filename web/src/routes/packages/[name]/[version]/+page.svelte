@@ -78,7 +78,7 @@
     </div>
 
     <!-- readme -->
-    <div class="pb-16 grow">
+    <div class="pb-16 grow max-w-screen overflow-y-scroll">
         <Markdown content={p.readMe || "No content"} />
     </div>
 </Page>
