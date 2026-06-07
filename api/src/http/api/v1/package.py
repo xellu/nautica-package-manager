@@ -46,15 +46,11 @@ async def publish(ctx: Context):
     
     return Reply(ok=True)
 
-@HTTP.Before(publish)
-def before_pub(ctx: Context):
-    Logger.dir(ctx)
-
 @HTTP.GET()
 @HTTP.Require(
     query = {"package": str}
 )
-def versions(ctx: Context):
+async def versions(ctx: Context):
     p = Package(ctx.query["package"])
     if not p.exists():
         raise Error(404, "Package does not exist")
@@ -97,7 +93,7 @@ def page(ctx: Context, package: str, version: str):
     return page
 
 @HTTP.GET("/install/{package:str}/{version:str}")
-def install(ctx: Context, package: str, version: str):
+async def install(ctx: Context, package: str, version: str):
     p = Package(package)
     if not p.exists():
         raise Error(404, "Package does not exist")
@@ -114,7 +110,7 @@ def install(ctx: Context, package: str, version: str):
     return RedirectResponse(url=ver.get("file"))
 
 @HTTP.GET()
-def featured():
+async def featured():
     ps = Services["MongoDB"]("packages").find(
         {},
         {"_id": 0}
@@ -124,7 +120,7 @@ def featured():
 
 @HTTP.GET()
 @HTTP.Require(query={"query": str, "page": int})
-def search(ctx: Context):
+async def search(ctx: Context):
     query = ctx.query["query"]
     page = abs(ctx.query["page"] - 1)
     limit = 10
