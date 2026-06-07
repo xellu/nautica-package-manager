@@ -72,10 +72,10 @@
         {#each featured as p}
             <a href="/packages/{p.name}">
                 <div class="card preset-filled-surface-100-900 p-3 h-72 overflow-y-hidden group">
-                    <div class="flex items-center justify-between gap-3">
-                        <div class="flex gap-3 items-center group-hover:text-secondary-500 duration-300">
-                            <span class="material-symbols-sharp">package_2</span>
-                            <p class="font-semibold text-xl text-ellipsis overflow-hidden">{p.displayName}</p>
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex gap-3 group-hover:text-secondary-500 duration-300">
+                            <span class="material-symbols-sharp mt-0.5">package_2</span>
+                            <p class="font-semibold text-lg text-ellipsis overflow-hidden">{p.displayName}</p>
                         </div>
 
                         <span class="chip font-semibold preset-filled-tertiary-500 group-hover:preset-filled-secondary-500">v{p.versions[p.versions.length-1].id}</span>
