@@ -1,5 +1,5 @@
 from napi.http import HTTP, Reply
 
 @HTTP.GET()
-def ping():
+async def ping():
     return Reply()
