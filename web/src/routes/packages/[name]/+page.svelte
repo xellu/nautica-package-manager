@@ -22,6 +22,13 @@
 />
 
 <Navbar />
+
+<p class="w-0 h-0 overflow-hidden">
+    <b>Documentation:</b>
+
+    {p.readMe || 'No Docs'}
+</p>
+
 <Page className="flex mt-16 gap-16 items-start max-md:flex-col">
     <!-- about package -->
     <div class="card preset-outlined-surface-100-900 p-3 md:w-72 w-full">

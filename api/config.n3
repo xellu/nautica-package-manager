@@ -6,12 +6,14 @@ http = true # Enables the HTTP Server service
 shell = true # Enables command execution and console input
 mongodb = true # Enable MongoDB Connector
 nauth = true # Enable nauth
+packageadmin = true # Enable PackageAdmin
 
 [http]
 host = "127.0.0.1" # Use 0.0.0.0 to expose your app, 127.0.0.1 to keep local
 port = 8100 # Port to host the app on, by default is set to 8100
 realIPHeader = "" # Name of the header which has the real ip, e.g. X-Real-IP, CF-Connecting-IP (if behind proxy), set to empty to use requesting machine's IP instead
 websockets = false # Enable support for WebSockets
+logRequests = true # Logs all successful requests. If disabled, only error requests are displayed, and boosts performance.
 
 [http.static]
 enabled = false # Set to true if you wish to send static files from a directory
