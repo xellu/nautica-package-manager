@@ -2,7 +2,7 @@ from nautica import Services
 from plugins.auth import NAuth, NAuthSession
 from src.lib.User import User
 
-Auth: NAuth = Services.Get("NAuth")
+Auth: NAuth = Services.get("NAuth")
 # Usage:
 # from src.nauth import Auth
 # @Auth.Protect() <- on a route you want protected by auth

@@ -79,7 +79,7 @@ class Package:
         version["id"] = versionId
         version["file"] = filename
         version["author"] = author._id
-        version["hash"] = Util.hashStr(zipBytes.decode("utf-8"))
+        # version["hash"] = Util.hashStr(zipBytes.decode("utf-8"))
         
         self._data["versions"].append(version)
         Services["MongoDB"]("packages").update_one({"name": self.name}, {"$set": {"versions": self._data["versions"]}})
